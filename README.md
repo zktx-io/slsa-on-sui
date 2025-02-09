@@ -62,4 +62,5 @@ package and generate the provenance.
 
 ### Getting Started
 
-Let’s say you have the following build setups [Link](https://docs.zktx.io/slsa/slsa-on-move/)
+Let’s say you have the following build setups
+[Link](https://docs.zktx.io/slsa/slsa-on-move/)

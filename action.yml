@@ -1,0 +1,26 @@
+name: SLSA on Sui
+description: SLSA on Sui
+branding:
+  color: blue
+  icon: package
+
+inputs:
+  package-framework:
+    type: string
+    required: true
+  base64-bytecode:
+    type: string
+    required: true
+  base64-toml:
+    type: string
+    required: true
+  message:
+    type: string
+    required: true
+  signature:
+    type: string
+    required: true
+
+runs:
+  using: node20
+  main: dist/index.js
