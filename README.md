@@ -2,11 +2,11 @@
 
 The goal of 'Move to SLSA' is to deploy smart contracts on the blockchain via GitHub Actions, and record their provenance (e.g., similar to the [provenance of npm packages](https://github.blog/2023-04-19-introducing-npm-package-provenance/)). Currently, only GitHub Actions and Google Cloud Build are Level 3 certified, ensuring the highest level of build integrity and security for the secure deployment of smart contracts.
 
-![slsa npm](https://doc.zktx.io/images/npm-package-provenance.png)
+![slsa npm](https://docs.zktx.io/images/npm-package-provenance.png)
 
 Our project integrates the SLSA framework to improve the deployment of blockchain smart contracts. This ensures the integrity of smart contracts, and assures users that the package they have downloaded has not been tampered with.
 
-![SLSA on Blockchain](/images/slsa-on-blockchain.svg)
+![SLSA on Blockchain](https://docs.zktx.io/images/slsa-on-blockchain.svg)
 
 # SLSA on Sui
 
