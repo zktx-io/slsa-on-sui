@@ -16,6 +16,28 @@ Our project integrates the SLSA framework to improve the deployment of blockchai
 
 ## Example
 
+Through this example, you can learn how to deploy and upgrade smart contracts using SLSA.
+The code used here can be found at [serializer](https://github.com/MystenLabs/sui/tree/main/sdk/typescript/test/e2e/data/serializer) and [serializer_upgrade](https://github.com/MystenLabs/sui/tree/main/sdk/typescript/test/e2e/data/serializer_upgrade).
+
+> Note: SLSA on Blockchain requires user input at certain stages.
+> SLSA on Blockchain secures the developer’s private key by not using GitHub secrets, instead obtaining signatures from an external wallet. Follow these steps to complete the process:
+>
+> 1. Trigger the Workflow: Start the deployment process by triggering the workflow.
+> 2. Connect Wallet:
+>
+> - The workflow will provide a link in the `connect-wallet` step.
+> - Click on this link to open the front-end interface for wallet connection.
+>   ![connect wallet](https://docs.zktx.io/images/connect-wallet.png)
+>
+> 3. Sign the Transaction:
+>
+> - In the opened window, connect your external wallet.
+> - Follow the prompts to sign the transaction.
+>
+> 4. Complete the Process:
+>
+> - After signing, the workflow will automatically continue to deploy the smart contract to the blockchain.
+
 ### Publish
 
 #### Workflow Inputs
