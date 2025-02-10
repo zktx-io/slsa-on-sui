@@ -1,66 +1,70 @@
-# Move Builds for Generation of SLSA3+ provenance
+# Move to SLSA
 
-This document explains how to generate SLSA provenance for Move artifact(s).
+The goal of 'Move to SLSA' is to deploy smart contracts on the blockchain via GitHub Actions, and record their provenance (e.g., similar to the [provenance of npm packages](https://github.blog/2023-04-19-introducing-npm-package-provenance/)). Currently, only GitHub Actions and Google Cloud Build are Level 3 certified, ensuring the highest level of build integrity and security for the secure deployment of smart contracts.
 
-This can be done by adding a step to your GitHub Actions workflow to call a
-[reusable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
-to build the package and generate SLSA provenance. We’ll call this workflow the
-**“Move builder”** from now on.
+![slsa npm](https://doc.zktx.io/images/npm-package-provenance.png)
 
----
+Our project integrates the SLSA framework to improve the deployment of blockchain smart contracts. This ensures the integrity of smart contracts, and assures users that the package they have downloaded has not been tampered with.
 
-<!-- markdown-toc --bullets="-" -i README.md -->
+![SLSA on Blockchain](/images/slsa-on-blockchain.svg)
 
-<!-- toc -->
+# SLSA on Sui
 
-- [Move Builds for Generation of SLSA3+ provenance](#move-builds-for-generation-of-slsa3-provenance)
-  - [Benefits of Provenance](#benefits-of-provenance)
-  - [Development Status](#development-status)
-  - [Limitations](#limitations)
-  - [Generating Provenance](#generating-provenance)
-    - [Getting Started](#getting-started)
+## Overview
 
-<!-- tocstop -->
+**SLSA on Sui** is a GitHub workflow action developed for the Move language. After building the smart contract source, it creates signed provenance using the generated artifact with [generator_generic_slsa3.yml](https://github.com/slsa-framework/slsa-github-generator/blob/main/internal/builders/generic/README.md). Then, it sends the information required to create a transaction to **SLSA on Blockchain**. The created transaction is returned to SLSA on Sui, where it is verified and then deployed to the blockchain.
 
----
+## Example
 
-## Benefits of Provenance
+### Publish
 
-Using the **Move builder** will generate a non-forgeable attestation to the Move
-package using the identity of the GitHub workflow. This can be used to create a
-positive attestation to a package coming from your repository.
+#### Workflow Inputs
 
-That means that once your users verify the package they have downloaded, they
-can be sure that it was created by your repository’s workflow and hasn’t been
-tampered with.
+| Name           | Description                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------- |
+| move-directory | The root directory of the Move project refers to the directory containing the `Move.toml` file.   |
 
-## Development Status
+#### Example
 
-The **Move builder** is currently in alpha. The API could change while
-approaching a Generally Available (GA) release. You can track progress towards
-General Availability via
-[this milestone](https://github.com/slsa-framework/slsa-github-generator/milestone/17).
+```bash
+name: Publish
 
-Please try it out and
-[create an issue](https://github.com/slsa-framework/slsa-github-generator/issues/new)
-to send us feedback!
+on:
+  release:
+    types:
+      - published
 
-## Limitations
+permissions:
+  actions: read
+  contents: write
+  id-token: write
 
-The **Move builder** currently has the following limitations:
+jobs:
+  build:
+    uses: zktx-io/slsa-on-sui/.github/workflows/generator_generic_slsa3.yml@main
+    with:
+      move-directory: 'smartcontract root folder'
+```
 
-1. The project must be buildable using move builder. If you need options for
-   flags, profiles, or something else to define more granular builds, please
-   [open an issue](https://github.com/slsa-framework/slsa-github-generator/issues/new).
-1. The **Move builder** is limited to projects that output artifacts in a build
-   directory, which is the default for the vast majority of projects.
+### Upgrade
 
-## Generating Provenance
+Create an `Upgrade.toml` file in the same location as `Move.toml` and add the necessary information for the upgrade.
 
-The **Move builder** uses a GitHub Actions reusable workflow to build your
-package and generate the provenance.
+| Name        | Description                                            |
+| ----------- | ------------------------------------------------------ |
+| package_id  | Published Packaged Object ID                           |
+| upgrade_cap | Upgrade Object ID _`This input is used only for Sui.`_ |
 
-### Getting Started
+```toml
+[upgrade]
+package_id = "Published Package Object ID"
+upgrade_cap = "Upgrade Cap Id of Package"
+```
 
-Let’s say you have the following build setups
-[Link](https://docs.zktx.io/slsa/slsa-on-move/)
+## Verification
+
+in development
+
+## Github
+
+Get started with **SLSA on Sui** and learn by [github](https://github.com/zktx-io/slsa-on-sui)
